@@ -1,0 +1,6 @@
+[submodule "JobApplicationTrackerAPI"]
+	path = JobApplicationTrackerAPI
+	url = https://github.com/rkortiga/JobApplicationTrackerAPI.git
+[submodule "JobApplicationTrackerUI"]
+	path = JobApplicationTrackerUI
+	url = https://github.com/rkortiga/JobApplicationTrackerUI.git
