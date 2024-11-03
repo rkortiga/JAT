@@ -20,7 +20,12 @@ Before setting up the environment, ensure you have the following installed:
    git clone --recurse-submodules https://github.com/rkortiga/JobApplicationTracker-Docker.git
    ```
 
-2. Navigate into the project directory:
+2. After cloning make sure the JobApplicationTracker-Docker project all its submodules are fully initialized, up-to-date, and consistent with the versions specified in the main repository, run this command.
+   ```bash
+   git submodule update --init --recursive
+   ```
+
+3. Navigate into the project directory:
    ```bash
    cd JobApplicationTracker-Docker
    ```
