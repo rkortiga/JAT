@@ -127,3 +127,18 @@ docker-compose down
   ```bash
   docker-compose up --build
   ```
+
+
+## NOTE  
+
+  - Before running Docker Compose, ensure that your local SQL Server instance is stopped. This prevents port conflicts with the SQL Server container that Docker Compose will run.  
+
+    This can be done in the SQL Server Configuration Manager in your Windows host machine.  
+
+  - Internal services (e.g., the API) will connect to the database using `jobapplicationtracker_db` as the hostname. Docker Compose sets up an internal network where containers can communicate using their service names as DNS hostnames. This is defined in the Docker Compose YAML file.    
+
+    So the value of `<DATABASE_SERVER>` in the connection string should be `jobapplicationtracker_db` unless otherwise defined in the YAML file.  
+
+  - Ensure the `apiBaseUrl` value in the `environment.ts` is set to `http://localhost:8080/api`. Docker Compose will expose the API on port 8080 for external access.
+
+
