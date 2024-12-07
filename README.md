@@ -141,4 +141,13 @@ docker-compose down
 
   - Ensure the `apiBaseUrl` value in the `environment.ts` is set to `http://localhost:8080/api`. Docker Compose will expose the API on port 8080 for external access.
 
+  - Use `sa` as the value for `User Id` and use the value from `<SA_PASSWORD from env file>` for `Password` in the connection string
 
+  - After running Docker Compose successfully, you can access the SQL server in SSMS using the credentials
+
+    ```bash
+      Server Name: localhost
+      Authentication: SQL Server Authentication
+      Login: sa
+      Password: <SA_PASSWORD from env file>
+    ```
