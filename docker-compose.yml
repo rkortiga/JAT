@@ -1,48 +1,52 @@
 services:
-  # Backend service
-  jobapplicationtracker_api:
-    image: jobapplicationtracker_api
-    build:
-      context: ./JobApplicationTrackerAPI
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-      - "8081:8081"
-    depends_on:
-      - jobapplicationtracker_db
-    environment:
-      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
-    networks:
-      - jobapplicationtrackernetwork
-    restart: on-failure
+    # Backend service
+    jobapplicationtracker_api:
+        container_name: api
+        image: jat_api:latest
+        build:
+            context: ./JobApplicationTrackerAPI
+            dockerfile: Dockerfile
+        ports:
+            - '8080:8080'
+            - '8081:8081'
+        depends_on:
+            - mssql
+        environment:
+            - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+        networks:
+            - jobapplicationtrackernetwork
+        restart: always
 
-  # Database service
-  jobapplicationtracker_db:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    environment:
-      SA_PASSWORD: ${SA_PASSWORD}
-      ACCEPT_EULA: ${ACCEPT_EULA}
-    ports:
-      - "${DB_PORT}:1433"
-    volumes:
-      - sqlvolume:/var/opt/mssql
-    networks:
-      - jobapplicationtrackernetwork
+    # Database service
+    mssql:
+        container_name: mssql
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        environment:
+            SA_PASSWORD: ${SA_PASSWORD}
+            ACCEPT_EULA: ${ACCEPT_EULA}
+        ports:
+            - '${DB_PORT}:1433'
+        volumes:
+            - persistence:/var/opt/mssql
+        networks:
+            - jobapplicationtrackernetwork
 
-  # Frontend service
-  jobapplicationtracker_ui:
-    build:
-      context: ./JobApplicationTrackerUI
-      dockerfile: Dockerfile
-    ports:
-      - "4200:4200"
-    depends_on:
-      - jobapplicationtracker_api
-    networks:
-      - jobapplicationtrackernetwork
+    # Frontend service
+    jobapplicationtracker_ui:
+        container_name: ui
+        image: jat_ui:latest
+        build:
+            context: ./JobApplicationTrackerUI
+            dockerfile: Dockerfile
+        ports:
+            - '4200:4200'
+        depends_on:
+            - jobapplicationtracker_api
+        networks:
+            - jobapplicationtrackernetwork
 
 networks:
-  jobapplicationtrackernetwork:
+    jobapplicationtrackernetwork:
 
 volumes:
-  sqlvolume:
+    persistence:
